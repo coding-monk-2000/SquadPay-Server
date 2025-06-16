@@ -16,8 +16,9 @@ app.use((req, _res, next) => {
 
 app.use("/api/auth", authRoutes);
 
-
-const SECRET_KEY = "your_secret_key";
+ jest.mock("../src/services/emailService", () => ({
+  sendPasswordResetEmail: jest.fn(),
+}));
 
 test("Should register a new user", async () => {
     const response = await request(app).post("/api/auth/register").send({
@@ -62,6 +63,7 @@ test("Should pass login with correct password", async () => {
 
 
 test("Should allow access to protected route with valid token", async () => {
+    const SECRET_KEY = 'MY_TEST_SECRET'
     const validToken = jwt.sign({ userId: 1 }, SECRET_KEY, { expiresIn: "1h" });
 
     const response = await request(app)
@@ -83,4 +85,19 @@ test("Should deny access to protected route with error", async () => {
         });
     const response = await request(app).get("/api/auth/protected").set("Authorization", `Bearer NOTVALIDTOKEN`);
     expect(response.status).toBe(403);
+});
+
+test("Should send email to valid user", async () => {
+
+    const response = await request(app)
+  .post("/api/auth/reset")
+  .send({ username: "testuser" });
+    expect(response.status).toBe(200);
+});
+
+test("Should return 401 for invalid user", async () => {
+    const response = await request(app)
+  .post("/api/auth/reset")
+  .send({ username: "invalidUser" });
+    expect(response.status).toBe(401);
 });
