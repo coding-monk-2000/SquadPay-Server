@@ -2,12 +2,11 @@ const request = require("supertest");
 const express = require("express");
 const authRoutes = require("../src/routes/authRoutes");
 const jwt = require("jsonwebtoken");
-const {initDb} = require("../src/db/db")
+const db = require("../src/db/db")
 
 const app = express();
 app.use(express.json()); 
 
-const db = initDb(true)
 
 app.use((req, _res, next) => {
     req.db = db;
@@ -59,6 +58,26 @@ test("Should pass login with correct password", async () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("token");
 });
+
+test("Should fail login with db error", async () => {
+    const app = express();
+    app.use(express.json()); 
+
+    const db = jest.fn()
+    app.use((req, _res, next) => {
+      req.db = db;
+      next();
+     });
+
+    app.use("/api/auth", authRoutes);
+      const response = await request(app).post("/api/auth/login").send({
+        username: "testuser",
+        password: "securepassword",
+     });
+
+    expect(response.status).toBe(500);
+});
+
 
 
 test("Should allow access to protected route with valid token", async () => {

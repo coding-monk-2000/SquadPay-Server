@@ -3,36 +3,46 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 
-const SECRET_KEY = "your_secret_key";
+const SECRET_KEY = process.env.SECRET_KEY;
 
-// User Registration
+
+    
 exports.register = async (req, res, db) => {
     const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    db.run("INSERT INTO users (username, password) VALUES (?, ?)", [username, hashedPassword], function (err) {
-        if (err) {
-            return res.status(500).json({ error: "username already exists" });
-        }
-
-        // Generate JWT after registration
-        const token = jwt.sign({ userId: this.lastID }, SECRET_KEY, { expiresIn: "1h" });
-        res.status(201).json({ message: "User registered successfully", token });
-    });
+    try {
+        const [userId] = await db('users')
+  .insert({ username, password: hashedPassword })
+  .returning('id');
+  const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
+  return res.status(201).json({ message: "User registered successfully", token });
+    }catch(_err) {
+        return res.status(500).json({error: "database entry failed"})
+    }
 };
 
 // User Login
 exports.login = async (req, res, db) => {
-    const { username, password } = req.body;
-    db.get("SELECT * FROM users WHERE username = ?", [username], async (err, user) => {
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ error: "Invalid credentials" });
-        }
+  const { username, password } = req.body;
 
-        const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: "1h" });
-        res.status(200).json({ message: "Login successful", token });
-    });
+  try {
+    const user = await db('users')
+      .where({ username })
+      .first();
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // If credentials are valid, issue JWT
+    const token = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: '1h' });
+    res.json({ message: 'Login successful', token });
+
+  } catch (_err) {
+    res.status(500).json({ error: 'Something went wrong' });
+  }
 };
+
 
 // Protected Route Logic
 exports.protectedRoute = (req, res) => {

@@ -7,7 +7,8 @@
     "test-coverage": "jest --coverage",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-     "lint": "eslint src/"
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +16,11 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "pg": "^8.16.1",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {

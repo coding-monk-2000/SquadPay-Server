@@ -1,3 +1,5 @@
 coverage
 node_modules/
 auth.db
+src/.env
+.vscode/

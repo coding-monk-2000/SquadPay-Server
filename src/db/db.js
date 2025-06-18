@@ -1,12 +1,21 @@
-const sqlite3 = require("sqlite3").verbose();
+const environment = process.env.NODE_ENV;
 
-exports.initDb = (test = false) => {
-  const  db = new sqlite3.Database(test ? ":memory:" : "./auth.db");
+const config = require('./knexfile')[environment];
+const knex = require('knex')(config);
 
-db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    username TEXT UNIQUE,
-    password TEXT
-)`);
-return db
-}
+
+(async () => {
+    await knex.raw(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username TEXT UNIQUE,
+        password TEXT
+      )
+    `);
+    console.log('Users table ready.');
+})();
+
+module.exports = knex;
+
+
+

@@ -7,5 +7,6 @@ module.exports = {
       lines: 90,
       statements: 90
     }
-  }
+  },
+  setupFiles: ['./jest.setup.js']
 };
