@@ -32,7 +32,8 @@ jobs:
   coverity-scan:
     runs-on: ubuntu-latest
     needs: build-and-test
-    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/master'
+    if: if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/master')
+
     steps:
       - name: ⬇Checkout code
         uses: actions/checkout@v3
