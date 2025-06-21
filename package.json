@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "build": "echo 'No build needed'",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "start": "node src/server.js",
