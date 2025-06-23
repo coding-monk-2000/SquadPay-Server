@@ -1,8 +1,9 @@
-const request = require("supertest");
-const express = require("express");
-const authRoutes = require("../src/routes/authRoutes");
-const jwt = require("jsonwebtoken");
-const db = require("../src/db/db")
+import request from "supertest";
+import { jest } from "@jest/globals";
+import express from "express";
+import authRoutes from "../src/routes/authRoutes.js";
+import jwt from "jsonwebtoken";
+import db from "../src/db/db.js";
 
 const app = express();
 app.use(express.json()); 

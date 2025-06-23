@@ -1,4 +1,5 @@
-const db = require("../src/db/db")
+import { jest } from "@jest/globals";
+import db from"../src/db/db"
 
 beforeAll(async () => {
   await db.raw(`

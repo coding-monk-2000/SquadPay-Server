@@ -4,8 +4,8 @@
   "main": "server.js",
   "type" : "module",
   "scripts": {
-    "test": "jest",
-    "test-coverage": "jest --coverage",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
     "dev": "nodemon ./server.js",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix"
