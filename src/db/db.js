@@ -1,8 +1,9 @@
+import knexfile from "./knexfile.js";
+import knexLib from "knex";
+
 const environment = process.env.NODE_ENV;
-
-const config = require('./knexfile')[environment];
-const knex = require('knex')(config);
-
+const config = knexfile[environment];
+const knex = knexLib(config);
 
 (async () => {
     await knex.raw(`
@@ -12,10 +13,12 @@ const knex = require('knex')(config);
         password TEXT
       )
     `);
-    console.log('Users table ready.');
+    console.log("Users table ready.");
 })();
 
-module.exports = knex;
+export default knex;
+
+
 
 
 

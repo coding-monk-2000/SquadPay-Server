@@ -1,22 +1,26 @@
-module.exports = {
+const config = {
   development: {
-    client: 'sqlite3',
+    client: "sqlite3",
     connection: {
-      filename: './auth.db'
+      filename: "./auth.db",
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
-test:{client: 'sqlite3',
+  test: {
+    client: "sqlite3",
     connection: {
-      filename: ':memory:'
-    }},
+      filename: ":memory:",
+    },
+  },
   production: {
-    client: 'pg',
+    client: "pg",
     connection: {
       host: process.env.HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-    }
-  }
+    },
+  },
 };
+
+export default config;

@@ -2,11 +2,11 @@
   "name": "squadpay-server",
   "version": "1.0.0",
   "main": "server.js",
+  "type" : "module",
   "scripts": {
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon ./server.js",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix"
   },

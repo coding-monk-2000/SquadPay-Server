@@ -1,14 +1,14 @@
 
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const logger = require("../logger")
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import logger from "../logger.js";
 
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
 
     
-exports.register = async (req, res, db) => {
+export const register = async (req, res, db) => {
     const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
@@ -23,7 +23,7 @@ exports.register = async (req, res, db) => {
 };
 
 // User Login
-exports.login = async (req, res, db) => {
+export const login = async (req, res, db) => {
 
   const { username, password } = req.body;
 
@@ -47,6 +47,6 @@ exports.login = async (req, res, db) => {
 
 
 // Protected Route Logic
-exports.protectedRoute = (req, res) => {
+export const protectedRoute = (req, res) => {
     res.json({ message: "This is a protected route!", userId: req.userId });
 };
