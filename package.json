@@ -2,7 +2,7 @@
   "name": "squadpay-server",
   "version": "1.0.0",
   "main": "server.js",
-  "type" : "module",
+  "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
@@ -15,10 +15,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@apollo/server": "^4.12.2",
     "@elastic/ecs-pino-format": "^1.5.0",
     "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "pg": "^8.16.1",
