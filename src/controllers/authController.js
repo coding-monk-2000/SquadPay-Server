@@ -9,11 +9,11 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
     
 export const register = async (req, res, db) => {
-    const { username, password } = req.body;
+    const { email, password, username } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
         const [userId] = await db('users')
-  .insert({ username, password: hashedPassword })
+  .insert({email, username, password: hashedPassword })
   .returning('id');
   const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
   return res.status(201).json({ message: "User registered successfully", token });
@@ -25,11 +25,11 @@ export const register = async (req, res, db) => {
 // User Login
 export const login = async (req, res, db) => {
 
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     const user = await db('users')
-      .where({ username })
+      .where({ email })
       .first();
 
     if (!user || !(await bcrypt.compare(password, user.password))) {

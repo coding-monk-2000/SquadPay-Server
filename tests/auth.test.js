@@ -23,6 +23,7 @@ test("Should register a new user", async () => {
     const response = await request(app).post("/api/auth/register").send({
         username: "testuser",
         password: "securepassword",
+        email: "r@bt.com"
     });
 
     expect(response.status).toBe(201);;
@@ -33,6 +34,7 @@ test("Should fail registration if username already exists", async () => {
     const response = await request(app).post("/api/auth/register").send({
         username: "testuser",
         password: "securepassword",
+        email: "r@bt.com"
     });
 
     expect(response.status).toBe(500);
@@ -42,7 +44,7 @@ test("Should fail registration if username already exists", async () => {
 
 test("Should fail login with incorrect password", async () => {
     const response = await request(app).post("/api/auth/login").send({
-        username: "testuser",
+        email: "r@bt.com",
         password: "wrongpassword",
     });
 
@@ -52,7 +54,7 @@ test("Should fail login with incorrect password", async () => {
 
 test("Should pass login with correct password", async () => {
     const response = await request(app).post("/api/auth/login").send({
-        username: "testuser",
+        email: "r@bt.com",
         password: "securepassword",
     });
 
