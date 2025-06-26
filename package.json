@@ -8,7 +8,8 @@
     "test-coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
     "dev": "nodemon ./server.js",
     "lint": "eslint src/",
-    "lint-fix": "eslint --fix src/ "
+    "lint-fix": "eslint --fix src/",
+    "prettify": "prettier --write src/"
   },
   "keywords": [],
   "author": "",

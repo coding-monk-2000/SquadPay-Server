@@ -3,12 +3,12 @@ import { jest } from "@jest/globals";
 import express from "express";
 import authRoutes from "../src/routes/authRoutes.js";
 import jwt from "jsonwebtoken";
-import db from "../src/db/db.js";
+import {createDbInstance} from "../src/db/db.js";
 
 const app = express();
 app.use(express.json()); 
 
-
+const db = await createDbInstance()
 app.use((req, _res, next) => {
     req.db = db;
     next();

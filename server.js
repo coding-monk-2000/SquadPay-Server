@@ -2,7 +2,7 @@ import "./src/config.js";
 import jwt from "jsonwebtoken";
 import express from "express";
 import router from "./src/routes/authRoutes.js";
-import db from "./src/db/db.js"
+import { createDbInstance } from "./src/db/db.js";
 import {ApolloServer} from "@apollo/server"
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from 'cors'
@@ -12,23 +12,13 @@ import {resolvers} from "./src/graphql/resolvers.js"
 const app = express();
 
 app.use(express.json());
-
+const db = await createDbInstance()
 app.use((req, _res, next) => {
     req.db = db;
     next();
 });
 
 app.use("/api/auth", router);
-
-async function getUserFromToken(token) {
-    try {
-      if (!token) throw new Error("Missing JWT");
-      console.log(jwt.verify(token, process.env.SECRET_KEY))
-      return jwt.verify(token, process.env.SECRET_KEY);
-    } catch (error) {
-      throw new Error("Invalid JWT");
-    }
-  }
 
 const server = new ApolloServer({
     typeDefs,
