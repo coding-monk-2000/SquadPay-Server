@@ -1,10 +1,12 @@
-import pino from 'pino';
-import ecsFormat from '@elastic/ecs-pino-format';
+import pino from "pino";
+import ecsFormat from "@elastic/ecs-pino-format";
 
-const logger = pino({
+const logger = pino(
+  {
     ...ecsFormat(),
-    level: 'info'
-  }, pino.destination({dest:'./logs/app.log',mkdir: true }));
+    level: "info",
+  },
+  pino.destination({ dest: "./logs/app.log", mkdir: true }),
+);
 
-
-  export default logger;
+export default logger;

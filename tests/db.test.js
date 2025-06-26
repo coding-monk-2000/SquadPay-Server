@@ -1,16 +1,5 @@
-import { jest } from "@jest/globals";
-import db from"../src/db/db"
-
-beforeAll(async () => {
-  await db.raw(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY,
-      username TEXT UNIQUE,
-      password TEXT
-    );
-  `);
-});
-
+import {createDbInstance} from"../src/db/db"
+const db = await createDbInstance()
 test("Should return db for test env", () => {
   const clientName =  db.client.config.client;
   expect(clientName).toBe('sqlite3');
